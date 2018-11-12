@@ -14,46 +14,23 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 
-## PART 1  - Complete grab_headlines
-## INPUT: soup - the soup object to process
-## Grab the headlines from the "Most Read" section
-## and return them in a list
+
 def grab_headlines(soup):
     headline_div = soup.find("div", {"class": "view-most-read"})
     headline_a = headline_div.find_all('a')
     title_list = [] 
     for headline in headline_a:
         title_list.append(headline.get_text())
-    return title_list
-    # get the most read div
-    
-    # get the ordered list from that div
-    
-    # get the links from the ordered list div
-    
-    # return the headlines
+    return title_list   
 
-    pass
-
-
-## PART 2 Complete a function called get_headline_dict. It will take a soup object and return a dictionary
-## with each story headline as a key and each story url as the value
-## INPUT: soup - the soup object
-## OUTPUT: Return - a dictionary with each story headline as the key and the story url as the value
-def get_headline_dict(soup):
-    
-    # create the empty dictionary
-    
-    # get the story wrap divs
-    
-    # get the short headline
-    
-    # find the link in headline div
-    
-    # set the dictionary key to the headline and the url as the value
-
-    pass
-
+def get_headline_dict(soup): 
+    headline_dict = {}
+    storywrap = soup.find_all('div', {'class': 'storywrap'})
+    for story in storywrap:
+        short_headline = story.find('div', {'class': 'views-field-field-short-headline'}).get_text().strip()
+        headline_url = story.find('a')['href']
+        headline_dict[short_headline] = headline_url
+    return headline_dict
 
 ## PART 3 Define a function called get_page_info. It will take a soup object for a story
 ## and return a tuple with the title, author, date, and the number of paragraphs
@@ -62,6 +39,7 @@ def get_headline_dict(soup):
 ## OUTPUT: Return - a tuple with the title, author, date, and number of paragraphs
 def get_page_info(soup):
     
+   
     # get the title
     
     # get the date
@@ -72,7 +50,6 @@ def get_page_info(soup):
     
     # return the tuple
 
-    pass
 
 ## Extra Credit
 ## INPUT: the dictionary that was returned from part 2
@@ -127,7 +104,7 @@ class TestP2(unittest.TestCase):
 
     def test_get_headline_dict(self):
         dict = get_headline_dict(self.soup)
-        url = dict[' Dialogues on Diversity holds discussion on microaggressions, accountability ']
+        url = dict['Dialogues on Diversity holds discussion on microaggressions, accountability']
         self.assertEqual(len(dict.items()), 19)
         self.assertEqual(url,'https://www.michigandaily.com/section/campus-life/diversity-sciences')
 
