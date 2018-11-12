@@ -38,17 +38,13 @@ def get_headline_dict(soup):
 ## INPUT: soup - the soup object
 ## OUTPUT: Return - a tuple with the title, author, date, and number of paragraphs
 def get_page_info(soup):
-    
-   
-    # get the title
-    
-    # get the date
-    
-    # get the author
-    
-    # get the number of paragraphs
-    
-    # return the tuple
+   title = soup.find('div', {'class': 'pane-node-title'}).get_text().strip()
+   author = soup.find('div', {'class': 'byline'}).a.get_text()
+   date = soup.find('div', {'class': 'pane-node-created'}).find('div', {'class': "pane-content"}).get_text()
+   paragraph_initial = soup.find('div', {'class': 'field-name-body'})
+   paragraphs = len(paragraph_initial.find_all('p'))
+
+   return (title, date, author, paragraphs)
 
 
 ## Extra Credit
