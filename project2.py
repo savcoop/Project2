@@ -19,7 +19,12 @@ import ssl
 ## Grab the headlines from the "Most Read" section
 ## and return them in a list
 def grab_headlines(soup):
-    
+    headline_div = soup.find("div", {"class": "view-most-read"})
+    headline_a = headline_div.find_all('a')
+    title_list = [] 
+    for headline in headline_a:
+        title_list.append(headline.get_text())
+    return title_list
     # get the most read div
     
     # get the ordered list from that div
